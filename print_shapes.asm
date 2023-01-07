@@ -12,16 +12,16 @@ section .text
 global _start
 _start:
 
-mov rdi, CharInput
+mov rdi, CharInput  ;read 1 character from stdin to specified address
 mov rsi, 1
 call read_stdin
 
-mov rdi, CharInput
+mov rdi, CharInput  ;convert character presumed to be in the range 0-9 to the corresponding real value  
 call char_to_int
 
 mov r8b, byte [CharInput]
 mov r9, 0
-print_loop:
+print_loop:         ;loop to print Char the amount of times entered previously
 cmp r9b, r8b
 je print_loop_done
 
