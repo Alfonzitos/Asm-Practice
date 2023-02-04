@@ -7,6 +7,7 @@ STDIN equ 0
 STDOUT equ 1
 Char db "*"
 CharInput db "0"
+NEWLINE db 10
 
 section .text
 global _start
@@ -24,6 +25,11 @@ mov r9, 0
 print_loop:         ;loop to print Char the amount of times entered previously
 cmp r9b, r8b
 je print_loop_done
+mov r10b, 0
+inner_print_loop:
+cmp r10b, r8b
+je inner_print_loop_done
+
 
 mov rax, SYS_write
 mov rdi, STDOUT
@@ -31,7 +37,18 @@ mov rsi, Char
 mov rdx, 1
 syscall
 
-inc r9
+inc r10b
+jmp inner_print_loop
+
+inner_print_loop_done:
+
+mov rax, SYS_write
+mov rdi, STDOUT
+mov rsi, NEWLINE
+mov rdx, 1
+syscall
+
+dec r8
 jmp print_loop
 
 
